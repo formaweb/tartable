@@ -39,6 +39,35 @@ class TarTable
     {
         
     }
+    
+    
+    private function &arraySplit($array)
+    {
+        $return = "";
+        if (count($array) == 1)
+        {
+            foreach($array as $key => $value)
+            {
+                $return .= " {$key} = '".trim($value)."' ";
+            }
+        }
+        return $return;
+    }
+    
+    private function &ifArray($data)
+    {
+        $return = "";
+        if (is_array($data))
+        {
+            $return = self::arraySplit($data);
+        }
+        elseif (is_string($data))
+        {
+            $return = " {$data} ";
+        }
+        
+        return $return;
+    }
 
 }
 

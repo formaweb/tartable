@@ -72,7 +72,20 @@ class TarTable
     
     public function delete($data)
     {
-        
+        $sql = "DELETE FROM ".$this->table." WHERE ".self::ifArray($data);
+        return self::query($sql);
+    }
+    
+    private function &setArray($field, $data)
+    {
+        $return = "";
+        if (count($field) > 0 && count($data) > 0)
+        {
+            foreach ($data as $key => $value)
+            {
+                if (in_array($key, $value))
+            }
+        }
     }
     
     

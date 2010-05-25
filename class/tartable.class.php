@@ -42,7 +42,7 @@ class TarTable
         }
         else
         {
-            $databaseConnection = mysql_select_db($this->database, $this->conn);
+            $databaseConnection = mysql_select_db($this->database, $this->connection);
             if (!$databaseConnection)
             {
                 die(mysql_error());

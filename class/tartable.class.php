@@ -12,10 +12,7 @@ class TarTable
         {
             $field = stripslashes(trim($field));
         }
-        else
-        {
-            $field = mysql_real_escape_string($field)
-        }
+        $field = mysql_real_escape_string($field)
         return $field;
     }
     

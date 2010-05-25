@@ -5,17 +5,12 @@ class TarTable
     
     private $table;
     
-    private function order($array)
+    private function security($field)
     {
-        $i = 0;
-        
-        foreach($array as $key => $value)
-        {
-            $i++;
-        }
+        return mysql_real_escape_string($field);
     }
     
-    public function select($array)
+    private function tableExists($table)
     {
         
     }
@@ -25,17 +20,22 @@ class TarTable
         $this->table = $table;
     }
     
-    public function insert($array)
+    public function select($data)
     {
         
     }
     
-    public function update($array)
+    public function insert($data)
     {
         
     }
     
-    public function delete($array)
+    public function update($data)
+    {
+        
+    }
+    
+    public function delete($data)
     {
         
     }

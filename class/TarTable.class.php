@@ -80,12 +80,14 @@ class TarTable
     
     public function insert($data)
     {
-        
+        $sql = "INSERT INTO ".$this->table." SET ".self::setArray($data);
+        return self::query($sql);
     }
     
-    public function update($data)
+    public function update($where, $data)
     {
-        
+        $sql = "UPDATE ".$this->table." SET ".self::setArray($data)." WHERE ".self::ifArray($where);
+        return self::query($sql);
     }
     
     public function delete($data)
@@ -94,16 +96,19 @@ class TarTable
         return self::query($sql);
     }
     
-    private function &setArray($field, $data)
+    private function &setArray($data)
     {
         $return = "";
-        if (count($field) > 0 && count($data) > 0)
+        if (count($data) > 0)
         {
             foreach ($data as $key => $value)
             {
-                if (in_array($key, $value));
+                $return .= "{$key} = '".self::security($value)."' ";
+                $return .= ", ";
             }
         }
+        $return = substr(trim($return), 0, -1);
+        return $return;        
     }
     
     private function &arrayOrdering($array)

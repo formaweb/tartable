@@ -131,6 +131,10 @@ class TarTable
         {
             $return = self::arrayOrdering($data);
         }
+        elseif (is_numeric($data) && $data > 0)
+        {
+            $return = " id = {$data} ";
+        }
         elseif (is_string($data))
         {
             $return = " {$data} ";

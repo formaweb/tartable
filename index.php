@@ -2,7 +2,7 @@
 
 include 'config/Includes.php';
 
-$TarTable->setTable("products");
+$TarTable->delete(15);
 
 $TarTable->unsetBase();
 

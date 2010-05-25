@@ -84,15 +84,23 @@ class TarTable
         return self::query($sql);
     }
     
-    public function update($where, $data)
+    public function update($where, $data, $table = null)
     {
-        $sql = "UPDATE ".$this->table." SET ".self::setArray($data)." WHERE ".self::ifArray($where);
+        if (empty($table))
+        {
+            $table = $this->table;
+        }
+        $sql = "UPDATE ".$table." SET ".self::setArray($data)." WHERE ".self::ifArray($where);
         return self::query($sql);
     }
     
-    public function delete($data)
+    public function delete($data, $table = null)
     {
-        $sql = "DELETE FROM ".$this->table." WHERE ".self::ifArray($data);
+        if (empty($table))
+        {
+            $table = $this->table;
+        }
+        $sql = "DELETE FROM ".$table." WHERE ".self::ifArray($data);
         return self::query($sql);
     }
     

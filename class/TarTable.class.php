@@ -16,11 +16,6 @@ class TarTable
         return $field;
     }
     
-    private function tableExists($table)
-    {
-        
-    }
-    
     public function query($sql)
     {
         $query = mysql_query($sql) or die(mysql_error());
@@ -73,34 +68,41 @@ class TarTable
         $this->table = $table;
     }
     
+    public function notSetTable($table)
+    {
+        if (is_null($table))
+        {
+            return $this->table;
+        }
+        else
+        {
+            return $table;
+        }
+    } 
+    
     public function select($data)
     {
         
     }
     
-    public function insert($data)
+    public function insert($data, $table = null)
     {
+        $table = self::notSetTable($table);
         $sql = "INSERT INTO ".$this->table." SET ".self::setArray($data);
         return self::query($sql);
     }
     
     public function update($where, $data, $table = null)
     {
-        if (empty($table))
-        {
-            $table = $this->table;
-        }
-        $sql = "UPDATE ".$table." SET ".self::setArray($data)." WHERE ".self::ifArray($where);
+        $table = self::notSetTable($table);
+        $sql = "UPDATE ".$table." SET ".self::setArray($data)." WHERE ".self::ifType($where);
         return self::query($sql);
     }
     
     public function delete($data, $table = null)
     {
-        if (empty($table))
-        {
-            $table = $this->table;
-        }
-        $sql = "DELETE FROM ".$table." WHERE ".self::ifArray($data);
+        $table = self::notSetTable($table);
+        $sql = "DELETE FROM ".$table." WHERE ".self::ifType($data);
         return self::query($sql);
     }
     
@@ -132,7 +134,7 @@ class TarTable
         return $return;
     }
     
-    private function &ifArray($data)
+    private function &ifType($data)
     {
         $return = "";
         if (is_array($data))

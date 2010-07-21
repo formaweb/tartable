@@ -2,7 +2,13 @@
 
 include 'config/Includes.php';
 
-$TarTable->delete(15);
+$TarTable->setTable("tabela");
+/*$TarTable->insert(array(
+  "titulo" => "Caio",
+  "descricao" => "Um menino legal!",
+));*/
+
+$TarTable->delete(4, "tabela");
 
 $TarTable->unsetBase();
 

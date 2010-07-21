@@ -6,7 +6,7 @@ $TarTable->setBase(array(
     "hostname"	=>  "localhost",
     "username"	=>  "root",
     "password"	=>  "",
-    "database"	=>  "TarTable",
+    "database"	=>  "tartable",
 ));
 
 ?>

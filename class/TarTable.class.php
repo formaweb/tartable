@@ -59,7 +59,7 @@ class TarTable
         }
         else
         {
-            return "Please, first open the connection! ";
+            return false;
         }
     }
     
@@ -80,31 +80,87 @@ class TarTable
         }
     } 
     
-    public function select($data)
+    public function select($options = null)
     {
+        $columns = "*";
+        $extend = "";
+		$return = "";
+		$array = true;
         
+        if ($options != null)
+        {
+            foreach ($options as $option => $value)
+            {
+                switch ($option)
+                {
+                    case "table":
+                        $table = $value;
+                        break;
+                    case "columns":
+                        if ($value != null)
+                        {
+                            $columns = self::ifType($value);
+                        }
+                        break;
+                    case "where":
+                        $extend .= " WHERE ".self::ifType($value);
+                        break;
+                    case "order":
+                        $extend .= " ORDER BY ".self::ifType($value);
+                        break;
+                    case "limit":
+                        $extend .= " LIMIT ".$value;
+                        break;
+					case "array":
+						$array = $value;
+						break;
+                }
+            }
+        }
+        $sql = "SELECT ".$columns." FROM ".self::notSetTable($table).$extend;
+		$sql = self::query($sql);
+		
+		if ($array)
+		{
+			while($row = mysql_fetch_array($sql))
+			{
+				$return[] = $row;
+			}
+		}
+
+        return $return;
     }
     
-    public function insert($data, $table = null)
+    public function insert($data, $options = null)
     {
-        $table = self::notSetTable($table);
+        $table = self::notSetTable($options["table"]);
         $sql = "INSERT INTO ".$this->table." SET ".self::setArray($data);
         return self::query($sql);
     }
     
-    public function update($where, $data, $table = null)
+    public function update($where, $data, $options = null)
     {
-        $table = self::notSetTable($table);
+        $table = self::notSetTable($options["table"]);
         $sql = "UPDATE ".$table." SET ".self::setArray($data)." WHERE ".self::ifType($where);
         return self::query($sql);
     }
     
-    public function delete($data, $table = null)
+    public function delete($data, $options = null)
     {
-        $table = self::notSetTable($table);
+        $table = self::notSetTable($options["table"]);
         $sql = "DELETE FROM ".$table." WHERE ".self::ifType($data);
         return self::query($sql);
     }
+
+	public function join($value, $table)
+	{
+		$select = self::select(array(
+			"table" => $table,
+			"where" => $value,
+		));
+		
+		return $select[0][1];
+	}
     
     private function &setArray($data)
     {

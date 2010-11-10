@@ -4,6 +4,7 @@ include 'config/Includes.php';
 
 $select = $TarTable->select(array(
   "table" => "tabela",
+	//"where" => "titulo LIKE '%5%'",
   "order" => array(
     "nome",
   ),
@@ -32,6 +33,10 @@ foreach ($select as $value)
 			<td><?php echo $value['titulo']; ?></td>
 			<td><?php echo $value['descricao']; ?></td>
 			<td><?php echo $TarTable->join(array("id" => $value['nivel']), "nivel"); ?></td>
+			<td>
+				<a href="edit.php?id=<?php echo $value['id']; ?>">Editar</a>
+				<a href="delete.php?id=<?php echo $value['id']; ?>">Deletar</a>
+			</td>
 		</tr>
 <?php
 }
@@ -41,3 +46,5 @@ foreach ($select as $value)
 <?php
 $TarTable->unsetBase();
 ?>
+
+<a href="new.php">Novo</a>
